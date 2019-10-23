@@ -5,8 +5,9 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Resources;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Json;
 using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Serialization;
 using PersonalLibrary;
 
@@ -165,18 +166,17 @@ namespace MoveObjects
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // BinaryFormatter formatter = new BinaryFormatter();
-            BinaryFormatter formatter = new BinaryFormatter();
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<Figure>), new Type[] { typeof(Rectangle), typeof(Circle), typeof(Triangle) });
             using (SaveFileDialog dialog = new SaveFileDialog())
             {
-                dialog.Filter = "BIN file (*.bin)|*.bin";
+                dialog.Filter = "JSON file (*.json)|*.json";
                 dialog.RestoreDirectory = true;
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     using (Stream stream = dialog.OpenFile())
                     {
-                        formatter.Serialize(stream, _figures);
+                        serializer.WriteObject(stream, _figures);
                     }
                 }
             }
@@ -188,16 +188,16 @@ namespace MoveObjects
             _figures = null;
             treeView_main.Nodes.Clear();
             CreateNodes();
-            BinaryFormatter formatter = new BinaryFormatter();
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<Figure>), new Type[] { typeof(Rectangle), typeof(Circle), typeof(Triangle) });
             using (OpenFileDialog dialog = new OpenFileDialog())
             {
-                dialog.Filter = "Binary file (*.bin)|*.bin";
-                dialog.RestoreDirectory = true;
+                dialog.Filter = "JSON file (*.json)|*.json";
+
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    using (Stream stream = dialog.OpenFile())
+                    using (FileStream fs = new FileStream(dialog.FileName, FileMode.OpenOrCreate))
                     {
-                        _figures = (List<Figure>)formatter.Deserialize(stream);
+                        _figures = (List<Figure>)serializer.ReadObject(fs);
                     }
                 }
             }

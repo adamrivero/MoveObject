@@ -2,22 +2,36 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 namespace MoveObjects
 {
-    [Serializable]
+    [DataContract]
     public class Figure
     {
-        protected int Width { get; set; }
-        protected int Height { get; set; }
-        protected int dx { get; set; }
-        protected int dy { get; set; }
-        protected bool down { get; set; }
-        protected bool right { get; set; }
-        protected int speed { get; set; }
-        protected Color color { get; set; }
-        [NonSerialized()] protected Pen pen;
-
+        [DataMember]
+        public int Width { get; set; }
+        [DataMember]
+        public int Height { get; set; }
+        [DataMember]
+        public int dx { get; set; }
+        [DataMember]
+        public int dy { get; set; }
+        [DataMember]
+        public bool down { get; set; }
+        [DataMember]
+        public bool right { get; set; }
+        [DataMember]
+        public int speed { get; set; }
+        [DataMember]
+        public Color color { get; set; }
+        [XmlElement("color")]
+        public int colorAsArgb
+        {
+            get { return color.ToArgb(); }
+            set { color = Color.FromArgb(value); }
+        }
+        protected Pen pen;
         public Figure(int width, int height)
         {
             this.Width = width;
@@ -86,7 +100,7 @@ namespace MoveObjects
             return speed;
         }
     }
-    [Serializable]
+    [DataContract]
     public class Rectangle : Figure
     {
         public Rectangle(int width, int height) : base(width, height)
@@ -106,7 +120,7 @@ namespace MoveObjects
             g.DrawRectangle(pen, dx, dy, 65, 65);
         }
     }
-    [Serializable]
+    [DataContract]
     public class Circle : Figure
     {
         public Circle(int width, int height) : base(width, height)
@@ -126,7 +140,7 @@ namespace MoveObjects
             g.DrawEllipse(pen, dx, dy, 65, 65);
         }
     }
-    [Serializable]
+    [DataContract]
     public class Triangle : Figure
     {
         public Triangle(int width, int height) : base(width, height)
