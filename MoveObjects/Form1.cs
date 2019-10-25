@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Resources;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using PersonalLibrary;
@@ -164,18 +165,18 @@ namespace MoveObjects
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           // BinaryFormatter formatter = new BinaryFormatter();
-           XmlSerializer formatter = new XmlSerializer(typeof(List<Figure>), new Type[] {typeof(Rectangle), typeof(Circle), typeof(Triangle)});
+            // BinaryFormatter formatter = new BinaryFormatter();
+            BinaryFormatter formatter = new BinaryFormatter();
             using (SaveFileDialog dialog = new SaveFileDialog())
             {
-                dialog.Filter = "XML file (*.xml)|*.xml";
+                dialog.Filter = "BIN file (*.bin)|*.bin";
                 dialog.RestoreDirectory = true;
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    using (FileStream fs = new FileStream(dialog.FileName, FileMode.OpenOrCreate))
+                    using (Stream stream = dialog.OpenFile())
                     {
-                        formatter.Serialize(fs, _figures);
+                        formatter.Serialize(stream, _figures);
                     }
                 }
             }
@@ -187,16 +188,16 @@ namespace MoveObjects
             _figures = null;
             treeView_main.Nodes.Clear();
             CreateNodes();
-            XmlSerializer formatter = new XmlSerializer(typeof(List<Figure>), new Type[] { typeof(Rectangle), typeof(Circle), typeof(Triangle) });
+            BinaryFormatter formatter = new BinaryFormatter();
             using (OpenFileDialog dialog = new OpenFileDialog())
             {
-                dialog.Filter = "Binary file (*.bin)|*.bin|XML file (*.xml)|*.xml|JSON file (*.json)|*.json";
-
+                dialog.Filter = "Binary file (*.bin)|*.bin";
+                dialog.RestoreDirectory = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    using (FileStream fs = new FileStream(dialog.FileName, FileMode.OpenOrCreate))
+                    using (Stream stream = dialog.OpenFile())
                     {
-                        _figures = (List<Figure>)formatter.Deserialize(fs);
+                        _figures = (List<Figure>)formatter.Deserialize(stream);
                     }
                 }
             }

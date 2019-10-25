@@ -8,27 +8,16 @@ namespace MoveObjects
     [Serializable]
     public class Figure
     {
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public int dx { get; set; }
-        public int dy { get; set; }
-        public bool down { get; set; }
-        public bool right { get; set; }
-        public int speed { get; set; }
-        [XmlIgnore]
-        public Color color { get; set; }
-        [XmlElement("color")]
-        public int colorAsArgb
-        {
-            get { return color.ToArgb(); }
-            set { color = Color.FromArgb(value); }
-        }
+        protected int Width { get; set; }
+        protected int Height { get; set; }
+        protected int dx { get; set; }
+        protected int dy { get; set; }
+        protected bool down { get; set; }
+        protected bool right { get; set; }
+        protected int speed { get; set; }
+        protected Color color { get; set; }
         [NonSerialized()] protected Pen pen;
 
-        public Figure()
-        {
-
-        }
         public Figure(int width, int height)
         {
             this.Width = width;
@@ -97,13 +86,9 @@ namespace MoveObjects
             return speed;
         }
     }
-    [XmlInclude(typeof(Rectangle))]
     [Serializable]
     public class Rectangle : Figure
     {
-        public Rectangle()
-        {
-        }
         public Rectangle(int width, int height) : base(width, height)
         {
         }
@@ -122,12 +107,8 @@ namespace MoveObjects
         }
     }
     [Serializable]
-    [XmlInclude(typeof(Circle))]
     public class Circle : Figure
     {
-        public Circle()
-        {
-        }
         public Circle(int width, int height) : base(width, height)
         {
         }
@@ -146,12 +127,8 @@ namespace MoveObjects
         }
     }
     [Serializable]
-    [XmlInclude(typeof(Triangle))]
     public class Triangle : Figure
     {
-        public Triangle()
-        {
-        }
         public Triangle(int width, int height) : base(width, height)
         {
         }
