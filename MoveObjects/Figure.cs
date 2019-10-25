@@ -69,7 +69,12 @@ namespace MoveObjects
         public delegate void MethodContainer(Figure figure);
 
         //Событие OnCount c типом делегата MethodContainer.
-        public event MethodContainer onCount;
+        private event MethodContainer onCount;
+        public event MethodContainer OnCount
+        {
+            add { onCount += value; }
+            remove { onCount -= value; }
+        }
         public void Collision(Figure figure)
         {
             int X1, X2, Y1, Y2;
@@ -79,14 +84,14 @@ namespace MoveObjects
             {
                 if (figure.GetType() == this.GetType())
                 {
-                    onCount?.Invoke(figure);
+                    onCount?.Invoke(this);
                 }
             }
             else if (((X1 <= X2 + 65 && Y1 <= Y2 + 65) && (X1 >= X2 && Y1 >= Y2)) || (X1 >= X2 && X1 <= X2 + 65) && (Y1 + 65 > Y2 && Y1 + 65 <= Y2 + 65))
             {
                 if (figure.GetType() == this.GetType())
                 {
-                    onCount?.Invoke(figure);
+                    onCount?.Invoke(this);
                 }
             }
             else

@@ -240,19 +240,18 @@ namespace MoveObjects
             }
             MainTimer.Enabled = true;
         }
-
+        Collision collision = new Collision();
         private void buttonCollision_Click(object sender, EventArgs e)
         {
             Figure selectedFigure = (Figure)treeView_main.SelectedNode.Tag;
-            Collision collision = new Collision();
-            selectedFigure.onCount += collision.DoCollision;
+            selectedFigure.OnCount += collision.DoCollision;
         }
 
         private void buttonCollisionOff_Click(object sender, EventArgs e)
         {
             Figure selectedFigure = (Figure)treeView_main.SelectedNode.Tag;
-            Collision collision = new Collision();
-            selectedFigure.onCount -= collision.DoCollision;
+            selectedFigure.OnCount -= collision.DoCollision;
+            selectedFigure.changeColor(Color.Black);
         }
     }
 }
