@@ -79,14 +79,14 @@ namespace MoveObjects
             {
                 if (figure.GetType() == this.GetType())
                 {
-                    onCount(figure);
+                    onCount?.Invoke(figure);
                 }
             }
             else if (((X1 <= X2 + 65 && Y1 <= Y2 + 65) && (X1 >= X2 && Y1 >= Y2)) || (X1 >= X2 && X1 <= X2 + 65) && (Y1 + 65 > Y2 && Y1 + 65 <= Y2 + 65))
             {
                 if (figure.GetType() == this.GetType())
                 {
-                    onCount(figure);
+                    onCount?.Invoke(figure);
                 }
             }
             else

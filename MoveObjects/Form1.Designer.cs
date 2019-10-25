@@ -45,6 +45,8 @@
             this.языкToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.русскийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.английскийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonCollision = new System.Windows.Forms.Button();
+            this.buttonCollisionOff = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Main)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -135,7 +137,7 @@
             // 
             this.trackBarSpeed.Location = new System.Drawing.Point(160, 12);
             this.trackBarSpeed.Name = "trackBarSpeed";
-            this.trackBarSpeed.Size = new System.Drawing.Size(212, 45);
+            this.trackBarSpeed.Size = new System.Drawing.Size(136, 45);
             this.trackBarSpeed.TabIndex = 7;
             this.trackBarSpeed.Scroll += new System.EventHandler(this.trackBarSpeed_Scroll);
             // 
@@ -162,14 +164,14 @@
             // сохранитьToolStripMenuItem
             // 
             this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
-            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.сохранитьToolStripMenuItem.Text = "Сохранить";
             this.сохранитьToolStripMenuItem.Click += new System.EventHandler(this.сохранитьToolStripMenuItem_Click);
             // 
             // загрузитьToolStripMenuItem
             // 
             this.загрузитьToolStripMenuItem.Name = "загрузитьToolStripMenuItem";
-            this.загрузитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.загрузитьToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.загрузитьToolStripMenuItem.Text = "Загрузить";
             this.загрузитьToolStripMenuItem.Click += new System.EventHandler(this.загрузитьToolStripMenuItem_Click);
             // 
@@ -196,11 +198,33 @@
             this.английскийToolStripMenuItem.Text = "Английский";
             this.английскийToolStripMenuItem.Click += new System.EventHandler(this.английскийToolStripMenuItem_Click);
             // 
+            // buttonCollision
+            // 
+            this.buttonCollision.Location = new System.Drawing.Point(320, 12);
+            this.buttonCollision.Name = "buttonCollision";
+            this.buttonCollision.Size = new System.Drawing.Size(31, 29);
+            this.buttonCollision.TabIndex = 9;
+            this.buttonCollision.Text = "+";
+            this.buttonCollision.UseVisualStyleBackColor = true;
+            this.buttonCollision.Click += new System.EventHandler(this.buttonCollision_Click);
+            // 
+            // buttonCollisionOff
+            // 
+            this.buttonCollisionOff.Location = new System.Drawing.Point(367, 12);
+            this.buttonCollisionOff.Name = "buttonCollisionOff";
+            this.buttonCollisionOff.Size = new System.Drawing.Size(31, 29);
+            this.buttonCollisionOff.TabIndex = 10;
+            this.buttonCollisionOff.Text = "-";
+            this.buttonCollisionOff.UseVisualStyleBackColor = true;
+            this.buttonCollisionOff.Click += new System.EventHandler(this.buttonCollisionOff_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 486);
+            this.Controls.Add(this.buttonCollisionOff);
+            this.Controls.Add(this.buttonCollision);
             this.Controls.Add(this.trackBarSpeed);
             this.Controls.Add(this.buttonChangeColor);
             this.Controls.Add(this.label1);
@@ -240,6 +264,8 @@
         private System.Windows.Forms.ToolStripMenuItem языкToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem русскийToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem английскийToolStripMenuItem;
+        private System.Windows.Forms.Button buttonCollision;
+        private System.Windows.Forms.Button buttonCollisionOff;
     }
 }
 

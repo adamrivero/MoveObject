@@ -81,13 +81,11 @@ namespace MoveObjects
 
                 foreach (Figure figure in _figures)
                 {
-                    Collision collision = new Collision();
                     currentFigure = null;
                     currentFigure = new List<Figure>(_figures);
                     currentFigure.Remove(figure);
                     foreach (Figure aimingFigure in currentFigure)
                     {
-                        figure.onCount += collision.DoCollision;
                         figure.Collision(aimingFigure);
                     }
                 }
@@ -100,7 +98,7 @@ namespace MoveObjects
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message, exception.Source);
+                //MessageBox.Show(exception.Message, exception.Source);
             }
         }
 
@@ -241,6 +239,20 @@ namespace MoveObjects
                 figure.LoadColor();
             }
             MainTimer.Enabled = true;
+        }
+
+        private void buttonCollision_Click(object sender, EventArgs e)
+        {
+            Figure selectedFigure = (Figure)treeView_main.SelectedNode.Tag;
+            Collision collision = new Collision();
+            selectedFigure.onCount += collision.DoCollision;
+        }
+
+        private void buttonCollisionOff_Click(object sender, EventArgs e)
+        {
+            Figure selectedFigure = (Figure)treeView_main.SelectedNode.Tag;
+            Collision collision = new Collision();
+            selectedFigure.onCount -= collision.DoCollision;
         }
     }
 }
