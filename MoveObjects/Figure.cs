@@ -66,6 +66,10 @@ namespace MoveObjects
             if (point.X < 0)
                 right = true;
         }
+        public delegate void MethodContainer(Figure figure);
+
+        //Событие OnCount c типом делегата MethodContainer.
+        public event MethodContainer onCount;
         public void Collision(Figure figure)
         {
             int X1, X2, Y1, Y2;
@@ -73,8 +77,17 @@ namespace MoveObjects
 
             if (((X2 <= X1 + 65 && Y2 <= Y1 + 65) && (X2 >= X1 && Y2 >= Y1)) || (X2 >= X1 && X2 <= X1 + 65) && (Y2 + 65 > Y1 && Y2 + 65 <= Y1 + 65))
             {
-                changeColor(Color.Red);
-                figure.changeColor(Color.Red);
+                if (figure.GetType() == this.GetType())
+                {
+                    onCount(figure);
+                }
+            }
+            else if (((X1 <= X2 + 65 && Y1 <= Y2 + 65) && (X1 >= X2 && Y1 >= Y2)) || (X1 >= X2 && X1 <= X2 + 65) && (Y1 + 65 > Y2 && Y1 + 65 <= Y2 + 65))
+            {
+                if (figure.GetType() == this.GetType())
+                {
+                    onCount(figure);
+                }
             }
             else
             {

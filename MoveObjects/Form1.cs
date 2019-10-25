@@ -78,15 +78,21 @@ namespace MoveObjects
             Refresh();
             try
             {
+
                 foreach (Figure figure in _figures)
                 {
+                    Collision collision = new Collision();
                     currentFigure = null;
                     currentFigure = new List<Figure>(_figures);
                     currentFigure.Remove(figure);
-                    foreach(Figure aimingFigure in currentFigure)
+                    foreach (Figure aimingFigure in currentFigure)
                     {
+                        figure.onCount += collision.DoCollision;
                         figure.Collision(aimingFigure);
                     }
+                }
+                foreach (Figure figure in _figures)
+                {
                     figure.Move(pictureBox_Main, g);
                 }
 
