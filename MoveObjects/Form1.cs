@@ -16,6 +16,7 @@ namespace MoveObjects
     {
         private Graphics g;
         private List<Figure> _figures = new List<Figure>();
+        private List<Figure> currentFigure;
         private static Assembly assembly = Assembly.Load("MoveObjects");
         private static ResourceManager rm = new ResourceManager("MoveObjects.Language.Languages", assembly);
         private static CultureInfo cultureInfo;
@@ -79,6 +80,13 @@ namespace MoveObjects
             {
                 foreach (Figure figure in _figures)
                 {
+                    currentFigure = null;
+                    currentFigure = new List<Figure>(_figures);
+                    currentFigure.Remove(figure);
+                    foreach(Figure aimingFigure in currentFigure)
+                    {
+                        figure.Collision(aimingFigure);
+                    }
                     figure.Move(pictureBox_Main, g);
                 }
 

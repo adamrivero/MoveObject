@@ -10,6 +10,7 @@ namespace MoveObjects
     {
         protected int Width { get; set; }
         protected int Height { get; set; }
+        protected Point point;
         protected int dx { get; set; }
         protected int dy { get; set; }
         protected bool down { get; set; }
@@ -20,13 +21,12 @@ namespace MoveObjects
 
         public Figure(int width, int height)
         {
+            point = new Point(width, height);
             this.Width = width;
             this.Height = height;
         }
         public virtual void Draw(PictureBox pictureBox, Graphics g)
         {
-            dx = Width;
-            dy = Height;
             down = true;
             right = true;
             color = Color.Black;
@@ -38,33 +38,53 @@ namespace MoveObjects
         {
             if (down && right)
             {
-                dx += speed;
-                dy += speed;
+                point.X += speed;
+                point.Y += speed;
             }
             else if (!down && right)
             {
-                dy -= speed;
-                dx += speed;
+                point.Y -= speed;
+                point.X += speed;
             }
             else if (!down && !right)
             {
-                dy -= speed;
-                dx -= speed;
+                point.Y -= speed;
+                point.X -= speed;
             }
             else if (down && !right)
             {
-                dy += speed;
-                dx -= speed;
+                point.Y += speed;
+                point.X -= speed;
             }
 
-            if (dy > pictureBox.Height - 65)
+            if (point.Y > pictureBox.Height - 65)
                 down = false;
-            if (dx > pictureBox.Width - 65)
+            if (point.X > pictureBox.Width - 65)
                 right = false;
-            if (dy < 0)
+            if (point.Y < 0)
                 down = true;
-            if (dx < 0)
+            if (point.X < 0)
                 right = true;
+        }
+        public void Collision(Figure figure)
+        {
+            int X1, X2, Y1, Y2;
+            X1 = point.X; X2 = figure.GetPoint().X; Y1 = point.Y; Y2 = figure.GetPoint().Y;
+
+            if (((X2 <= X1 + 65 && Y2 <= Y1 + 65) && (X2 >= X1 && Y2 >= Y1)) || (X2 >= X1 && X2 <= X1 + 65) && (Y2 + 65 > Y1 && Y2 + 65 <= Y1 + 65))
+            {
+                changeColor(Color.Red);
+                figure.changeColor(Color.Red);
+            }
+            else
+            {
+                changeColor(Color.Black);
+                figure.changeColor(Color.Black);
+            }
+        }
+        public Point GetPoint()
+        {
+            return point;
         }
         public void LoadColor()
         {
@@ -96,14 +116,14 @@ namespace MoveObjects
         {
             base.Draw(pictureBox, g);
             g = pictureBox.CreateGraphics();
-            g.DrawRectangle(pen, Width, Height, 65, 65);
+            g.DrawRectangle(pen, point.X, point.Y, 65, 65);
         }
 
         public override void Move(PictureBox pictureBox, Graphics g)
         {
             base.Move(pictureBox, g);
             g = pictureBox.CreateGraphics();
-            g.DrawRectangle(pen, dx, dy, 65, 65);
+            g.DrawRectangle(pen, point.X, point.Y, 65, 65);
         }
     }
     [Serializable]
@@ -116,14 +136,14 @@ namespace MoveObjects
         {
             base.Draw(pictureBox, g);
             g = pictureBox.CreateGraphics();
-            g.DrawEllipse(pen, Width, Height, 65, 65);
+            g.DrawEllipse(pen, point.X, point.Y, 65, 65);
         }
 
         public override void Move(PictureBox pictureBox, Graphics g)
         {
             base.Move(pictureBox, g);
             g = pictureBox.CreateGraphics();
-            g.DrawEllipse(pen, dx, dy, 65, 65);
+            g.DrawEllipse(pen, point.X, point.Y, 65, 65);
         }
     }
     [Serializable]
@@ -138,9 +158,9 @@ namespace MoveObjects
             base.Draw(pictureBox, g);
             Point[] curvePoints =
             {
-                new Point(Width, Height),
-                new Point(Width, Height + 65), 
-                new Point(Width + 65, Height + 65)  
+                new Point(point.X, point.Y),
+                new Point(point.X, point.Y + 65), 
+                new Point(point.X + 65, point.Y + 65)  
             };
             g = pictureBox.CreateGraphics();
             g.DrawPolygon(pen, curvePoints);
@@ -151,9 +171,9 @@ namespace MoveObjects
             base.Move(pictureBox, g);
             Point[] curvePoints =
             {
-                new Point(dx, dy), 
-                new Point(dx, dy + 65), 
-                new Point(dx + 65, dy + 65) 
+                new Point(point.X, point.Y), 
+                new Point(point.X, point.Y + 65), 
+                new Point(point.X + 65, point.Y + 65) 
             };
             g = pictureBox.CreateGraphics();
             g.DrawPolygon(pen, curvePoints);
