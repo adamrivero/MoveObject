@@ -10,9 +10,17 @@ namespace MoveObjects
 {
     public class Collision : EventArgs
     {
-        public void DoCollision(Figure figure)
+        private Point point;
+        private Label label;
+        public Collision(Label _label)
+        {
+            label = _label;
+        }
+        public void DoCollision(Figure figure, Point _point)
         {
             figure.changeColor(Color.Red);
+            point = _point;
+            label.Text = $"Координаты пересечения: X = {point.X} Y = {point.Y}";
         }
     }
 }

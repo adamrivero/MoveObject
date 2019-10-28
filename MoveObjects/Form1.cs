@@ -21,12 +21,14 @@ namespace MoveObjects
         private static ResourceManager rm = new ResourceManager("MoveObjects.Language.Languages", assembly);
         private static CultureInfo cultureInfo;
         RandomXY rndXY;
+        Collision collision;
         private int counter;
 
         public Form1()
         {
             InitializeComponent();
             CreateNodes();
+            collision = new Collision(collisionLabel);
         }
         public void CreateNodes()
         {
@@ -240,7 +242,7 @@ namespace MoveObjects
             }
             MainTimer.Enabled = true;
         }
-        Collision collision = new Collision();
+        
         private void buttonCollision_Click(object sender, EventArgs e)
         {
             Figure selectedFigure = (Figure)treeView_main.SelectedNode.Tag;

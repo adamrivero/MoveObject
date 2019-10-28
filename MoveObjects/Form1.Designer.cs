@@ -47,6 +47,7 @@
             this.английскийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonCollision = new System.Windows.Forms.Button();
             this.buttonCollisionOff = new System.Windows.Forms.Button();
+            this.collisionLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Main)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -117,7 +118,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 28);
+            this.label1.Location = new System.Drawing.Point(12, 20);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(107, 13);
             this.label1.TabIndex = 5;
@@ -218,11 +219,20 @@
             this.buttonCollisionOff.UseVisualStyleBackColor = true;
             this.buttonCollisionOff.Click += new System.EventHandler(this.buttonCollisionOff_Click);
             // 
+            // collisionLabel
+            // 
+            this.collisionLabel.AutoSize = true;
+            this.collisionLabel.Location = new System.Drawing.Point(12, 39);
+            this.collisionLabel.Name = "collisionLabel";
+            this.collisionLabel.Size = new System.Drawing.Size(0, 13);
+            this.collisionLabel.TabIndex = 11;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 486);
+            this.Controls.Add(this.collisionLabel);
             this.Controls.Add(this.buttonCollisionOff);
             this.Controls.Add(this.buttonCollision);
             this.Controls.Add(this.trackBarSpeed);
@@ -236,7 +246,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Движение объектов";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Main)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).EndInit();
             this.menuStrip1.ResumeLayout(false);
@@ -266,6 +276,7 @@
         private System.Windows.Forms.ToolStripMenuItem английскийToolStripMenuItem;
         private System.Windows.Forms.Button buttonCollision;
         private System.Windows.Forms.Button buttonCollisionOff;
+        private System.Windows.Forms.Label collisionLabel;
     }
 }
 

@@ -66,7 +66,7 @@ namespace MoveObjects
             if (point.X < 0)
                 right = true;
         }
-        public delegate void MethodContainer(Figure figure);
+        public delegate void MethodContainer(Figure figure, Point point);
 
         //Событие OnCount c типом делегата MethodContainer.
         private event MethodContainer onCount;
@@ -84,14 +84,14 @@ namespace MoveObjects
             {
                 if (figure.GetType() == this.GetType())
                 {
-                    onCount?.Invoke(this);
+                    onCount?.Invoke(this, figure.GetPoint());
                 }
             }
             else if (((X1 <= X2 + 65 && Y1 <= Y2 + 65) && (X1 >= X2 && Y1 >= Y2)) || (X1 >= X2 && X1 <= X2 + 65) && (Y1 + 65 > Y2 && Y1 + 65 <= Y2 + 65))
             {
                 if (figure.GetType() == this.GetType())
                 {
-                    onCount?.Invoke(this);
+                    onCount?.Invoke(this, point);
                 }
             }
             else
