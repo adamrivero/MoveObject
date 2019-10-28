@@ -70,6 +70,15 @@ namespace MoveObjects.Language {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Collision coord.
+        /// </summary>
+        internal static string collisionCoord {
+            get {
+                return ResourceManager.GetString("collisionCoord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Set red color.
         /// </summary>
         internal static string color {

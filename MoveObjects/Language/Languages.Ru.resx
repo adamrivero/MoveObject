@@ -120,11 +120,14 @@
   <data name="circle" xml:space="preserve">
     <value>Круг</value>
   </data>
+  <data name="collisionCoord" xml:space="preserve">
+    <value>Координаты пересечения</value>
+  </data>
   <data name="color" xml:space="preserve">
     <value>Сделать красным</value>
   </data>
   <data name="elements" xml:space="preserve">
-    <value>Количество элементов</value>
+    <value>Всего элементов</value>
   </data>
   <data name="eng" xml:space="preserve">
     <value>Английский</value>

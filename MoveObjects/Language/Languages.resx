@@ -120,6 +120,9 @@
   <data name="circle" xml:space="preserve">
     <value>Circle</value>
   </data>
+  <data name="collisionCoord" xml:space="preserve">
+    <value>Collision coord</value>
+  </data>
   <data name="color" xml:space="preserve">
     <value>Set red color</value>
   </data>

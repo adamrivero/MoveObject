@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
+using System.Resources;
 using System.Windows.Forms;
 
 namespace MoveObjects
@@ -12,14 +10,14 @@ namespace MoveObjects
     {
         private Point point;
         private Label label;
-        public Collision(Label _label)
+        public Collision(Label label)
         {
-            label = _label;
+            this.label = label;
         }
-        public void DoCollision(Figure figure, Point _point)
+        public void DoCollision(Figure figure, Point point)
         {
             figure.changeColor(Color.Red);
-            point = _point;
+            this.point = point;
             label.Text = $"Координаты пересечения: X = {point.X} Y = {point.Y}";
         }
     }

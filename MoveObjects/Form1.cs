@@ -29,6 +29,7 @@ namespace MoveObjects
             InitializeComponent();
             CreateNodes();
             collision = new Collision(collisionLabel);
+            rndXY = new RandomXY(pictureBox_Main.Width, pictureBox_Main.Height);
         }
         public void CreateNodes()
         {
@@ -36,45 +37,33 @@ namespace MoveObjects
             treeView_main.Nodes.Add("Круги");
             treeView_main.Nodes.Add("Треугольники");
         }
-        private void buttonSquare_Click(object sender, EventArgs e)
+        private void DrawFigure(Figure figure, string figureName, int nodeLevel)
         {
             TreeNode node = new TreeNode();
-            rndXY = new RandomXY(pictureBox_Main.Width, pictureBox_Main.Height);
-            Rectangle rectangle = new Rectangle(rndXY.GetX(), rndXY.GetY());
-            rectangle.Draw(pictureBox_Main, g);
-            _figures.Add(rectangle);
-            node.Tag = rectangle;
-            node.Text = $@"{rm.GetString("square", cultureInfo)} - {counter++}";
-            treeView_main.Nodes[0].Nodes.Add(node);
+            figure.Draw(pictureBox_Main, g);
+            _figures.Add(figure);
+            node.Tag = figure;
+            node.Text = $@"{rm.GetString(figureName, cultureInfo)} - {counter++}";
+            treeView_main.Nodes[nodeLevel].Nodes.Add(node);
             MainTimer.Enabled = true;
+        }
+        private void buttonSquare_Click(object sender, EventArgs e)
+        {
+            Rectangle rectangle = new Rectangle(rndXY.GetX(), rndXY.GetY());
+            DrawFigure(rectangle, "square", 0);
         }
 
         private void buttonCircle_Click(object sender, EventArgs e)
         {
-            TreeNode node = new TreeNode();
-            rndXY = new RandomXY(pictureBox_Main.Width, pictureBox_Main.Height);
             Circle circle = new Circle(rndXY.GetX(), rndXY.GetY());
-            circle.Draw(pictureBox_Main, g);
-            _figures.Add(circle);
-            node.Tag = circle;
-            node.Text = $@"{rm.GetString("circle", cultureInfo)} - {counter++}";
-            treeView_main.Nodes[1].Nodes.Add(node);
-            MainTimer.Enabled = true;
+            DrawFigure(circle, "circle", 1);
         }
 
         private void buttonTriangle_Click(object sender, EventArgs e)
         {
-            TreeNode node = new TreeNode();
-            rndXY = new RandomXY(pictureBox_Main.Width, pictureBox_Main.Height);
             Triangle triangle = new Triangle(rndXY.GetX(), rndXY.GetY());
-            triangle.Draw(pictureBox_Main, g);
-            _figures.Add(triangle);
-            node.Tag = triangle;
-            node.Text = $@"{rm.GetString("triangle", cultureInfo)} - {counter++}";
-            treeView_main.Nodes[2].Nodes.Add(node);
-            MainTimer.Enabled = true;
+            DrawFigure(triangle, "triangle", 2);
         }
-
         private void MainTimer_Tick(object sender, EventArgs e)
         {
             Refresh();
@@ -100,7 +89,7 @@ namespace MoveObjects
             }
             catch (Exception exception)
             {
-                //MessageBox.Show(exception.Message, exception.Source);
+                MessageBox.Show(exception.Message, exception.Source);
             }
         }
 
@@ -124,8 +113,11 @@ namespace MoveObjects
         {
             try
             {
-                _figures.Remove((Figure) treeView_main.SelectedNode.Tag);
-                treeView_main.Nodes[e.Node.Level].Nodes.Remove(e.Node);
+                if (treeView_main.SelectedNode.IsSelected && treeView_main.SelectedNode.Level > 0)
+                {
+                    _figures.Remove((Figure)treeView_main.SelectedNode.Tag);
+                    treeView_main.Nodes[e.Node.Level].Nodes.Remove(e.Node);
+                }
             }
             catch (Exception exception)
             {
@@ -134,21 +126,12 @@ namespace MoveObjects
             }
         }
 
-        private void buttonChangeColor_Click(object sender, EventArgs e)
-        {
-            Figure selectedFigure = (Figure)treeView_main.SelectedNode.Tag;
-            selectedFigure.changeColor(Color.Brown);
-        }
-
         private void trackBarSpeed_Scroll(object sender, EventArgs e)
         {
-            try
-            {
+            if (treeView_main.SelectedNode.IsSelected && treeView_main.SelectedNode.Level > 0)
+            { 
                 Figure selectedFigure = (Figure) treeView_main.SelectedNode.Tag;
                 selectedFigure.changeSpeed(trackBarSpeed.Value);
-            }
-            catch
-            {
             }
         }
         private void английскийToolStripMenuItem_Click(object sender, EventArgs e)
@@ -164,7 +147,6 @@ namespace MoveObjects
         private void ChangeLanguage(string language)
         {
             cultureInfo = new CultureInfo(language);
-            buttonChangeColor.Text = rm.GetString("color", cultureInfo);
             buttonSquare.Text = rm.GetString("square", cultureInfo);
             buttonCircle.Text = rm.GetString("circle", cultureInfo);
             buttonTriangle.Text = rm.GetString("triangle", cultureInfo);
@@ -245,15 +227,23 @@ namespace MoveObjects
         
         private void buttonCollision_Click(object sender, EventArgs e)
         {
-            Figure selectedFigure = (Figure)treeView_main.SelectedNode.Tag;
-            selectedFigure.OnCount += collision.DoCollision;
+            if (treeView_main.SelectedNode.IsSelected && treeView_main.SelectedNode.Level > 0)
+            {
+                Figure selectedFigure = (Figure)treeView_main.SelectedNode.Tag;
+                selectedFigure.OnCount += collision.DoCollision;
+            }
+            else MessageBox.Show("Что-бы добавить событие столкновения фигуре\nнеобходимо выбрать ее в дереве слева", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void buttonCollisionOff_Click(object sender, EventArgs e)
         {
-            Figure selectedFigure = (Figure)treeView_main.SelectedNode.Tag;
-            selectedFigure.OnCount -= collision.DoCollision;
-            selectedFigure.changeColor(Color.Black);
+            if (treeView_main.SelectedNode.IsSelected && treeView_main.SelectedNode.Level > 0)
+            {
+                Figure selectedFigure = (Figure)treeView_main.SelectedNode.Tag;
+                selectedFigure.OnCount -= collision.DoCollision;
+                selectedFigure.changeColor(Color.Black);
+            }
+            else MessageBox.Show("Что-бы удалить событие столкновения фигуре\nнеобходимо выбрать ее в дереве слева", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
