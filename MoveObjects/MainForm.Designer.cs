@@ -1,6 +1,6 @@
 ﻿namespace MoveObjects
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -72,7 +72,6 @@
             this.treeView_main.Name = "treeView_main";
             this.treeView_main.Size = new System.Drawing.Size(119, 273);
             this.treeView_main.TabIndex = 1;
-            this.treeView_main.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_main_AfterSelect);
             this.treeView_main.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_main_NodeMouseClick);
             this.treeView_main.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_main_NodeMouseDoubleClick);
             // 

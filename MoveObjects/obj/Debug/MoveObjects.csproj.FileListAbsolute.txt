@@ -34,7 +34,6 @@ D:\Projects\MoveObject\MoveObjects\bin\Debug\MoveObjects.pdb
 D:\Projects\MoveObject\MoveObjects\bin\Debug\Ru\MoveObjects.resources.dll
 D:\Projects\MoveObject\MoveObjects\bin\Debug\PersonalLibrary.dll
 D:\Projects\MoveObject\MoveObjects\obj\Debug\MoveObjects.csprojAssemblyReference.cache
-D:\Projects\MoveObject\MoveObjects\obj\Debug\MoveObjects.Form1.resources
 D:\Projects\MoveObject\MoveObjects\obj\Debug\MoveObjects.Language.Languages.resources
 D:\Projects\MoveObject\MoveObjects\obj\Debug\MoveObjects.Properties.Resources.resources
 D:\Projects\MoveObject\MoveObjects\obj\Debug\MoveObjects.Language.Languages.Ru.resources
@@ -43,3 +42,4 @@ D:\Projects\MoveObject\MoveObjects\obj\Debug\Ru\MoveObjects.resources.dll
 D:\Projects\MoveObject\MoveObjects\obj\Debug\MoveObjects.csproj.CopyComplete
 D:\Projects\MoveObject\MoveObjects\obj\Debug\MoveObjects.exe
 D:\Projects\MoveObject\MoveObjects\obj\Debug\MoveObjects.pdb
+D:\Projects\MoveObject\MoveObjects\obj\Debug\MoveObjects.MainForm.resources

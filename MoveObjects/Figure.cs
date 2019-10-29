@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Xml.Serialization;
 
 namespace MoveObjects
 {
@@ -17,8 +16,14 @@ namespace MoveObjects
         protected bool right { get; set; }
         protected int speed { get; set; }
         protected Color color { get; set; }
+        public delegate void MethodContainer(Figure figure, Point point);
+        private event MethodContainer onCount;
         [NonSerialized()] protected Pen pen;
-
+        public event MethodContainer OnCount
+        {
+            add { onCount += value; }
+            remove { onCount -= value; }
+        }
         public Figure(int width, int height)
         {
             point = new Point(width, height);
@@ -65,15 +70,21 @@ namespace MoveObjects
                 down = true;
             if (point.X < 0)
                 right = true;
+            if (point.Y > pictureBox.Height)
+                throw new AbroadException("Фигура находится вне границ объекта PictureBox", point, this);
+            if (point.X > pictureBox.Width)
+                throw new AbroadException("Фигура находится вне границ объекта PictureBox", point, this);
+            if (point.Y < -5)
+                throw new AbroadException("Фигура находится вне границ объекта PictureBox", point, this);
+            if (point.X < -5)
+                throw new AbroadException("Фигура находится вне границ объекта PictureBox", point, this);
         }
-        public delegate void MethodContainer(Figure figure, Point point);
-
-        //Событие OnCount c типом делегата MethodContainer.
-        private event MethodContainer onCount;
-        public event MethodContainer OnCount
+        public void BackInBoard(PictureBox pictureBox)
         {
-            add { onCount += value; }
-            remove { onCount -= value; }
+            if (pictureBox.Width - 65 < point.X)
+                point.X = pictureBox.Width - 65;
+            if (pictureBox.Height - 65 < point.Y)
+                point.Y = pictureBox.Height - 65;
         }
         public void Collision(Figure figure)
         {
@@ -108,6 +119,10 @@ namespace MoveObjects
         {
             pen = new Pen(color);
             pen.Width = 4.0F;
+        }
+        public void SetBorder(float width)
+        {
+            pen.Width = width;
         }
         public void changeColor(Color newColor)
         {
@@ -156,7 +171,6 @@ namespace MoveObjects
             g = pictureBox.CreateGraphics();
             g.DrawEllipse(pen, point.X, point.Y, 65, 65);
         }
-
         public override void Move(PictureBox pictureBox, Graphics g)
         {
             base.Move(pictureBox, g);
@@ -170,28 +184,26 @@ namespace MoveObjects
         public Triangle(int width, int height) : base(width, height)
         {
         }
-
         public override void Draw(PictureBox pictureBox, Graphics g)
         {
             base.Draw(pictureBox, g);
             Point[] curvePoints =
             {
                 new Point(point.X, point.Y),
-                new Point(point.X, point.Y + 65), 
-                new Point(point.X + 65, point.Y + 65)  
+                new Point(point.X, point.Y + 65),
+                new Point(point.X + 65, point.Y + 65)
             };
             g = pictureBox.CreateGraphics();
             g.DrawPolygon(pen, curvePoints);
         }
-
         public override void Move(PictureBox pictureBox, Graphics g)
         {
             base.Move(pictureBox, g);
             Point[] curvePoints =
             {
-                new Point(point.X, point.Y), 
-                new Point(point.X, point.Y + 65), 
-                new Point(point.X + 65, point.Y + 65) 
+                new Point(point.X, point.Y),
+                new Point(point.X, point.Y + 65),
+                new Point(point.X + 65, point.Y + 65)
             };
             g = pictureBox.CreateGraphics();
             g.DrawPolygon(pen, curvePoints);

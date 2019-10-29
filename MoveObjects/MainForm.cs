@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PersonalLibrary;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -6,13 +7,12 @@ using System.IO;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Windows.Forms;
-using System.Xml.Serialization;
-using PersonalLibrary;
 
 namespace MoveObjects
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private Graphics g;
         private List<Figure> _figures = new List<Figure>();
@@ -23,8 +23,7 @@ namespace MoveObjects
         RandomXY rndXY;
         Collision collision;
         private int counter;
-
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             CreateNodes();
@@ -52,13 +51,11 @@ namespace MoveObjects
             Rectangle rectangle = new Rectangle(rndXY.GetX(), rndXY.GetY());
             DrawFigure(rectangle, "square", 0);
         }
-
         private void buttonCircle_Click(object sender, EventArgs e)
         {
             Circle circle = new Circle(rndXY.GetX(), rndXY.GetY());
             DrawFigure(circle, "circle", 1);
         }
-
         private void buttonTriangle_Click(object sender, EventArgs e)
         {
             Triangle triangle = new Triangle(rndXY.GetX(), rndXY.GetY());
@@ -66,10 +63,10 @@ namespace MoveObjects
         }
         private void MainTimer_Tick(object sender, EventArgs e)
         {
+            StreamWriter sw = new StreamWriter(@"..\..\Log\ExceptionReport.log", true, Encoding.UTF8);
             Refresh();
             try
             {
-
                 foreach (Figure figure in _figures)
                 {
                     currentFigure = null;
@@ -84,31 +81,33 @@ namespace MoveObjects
                 {
                     figure.Move(pictureBox_Main, g);
                 }
-
                 label1.Text = $"{rm.GetString("elements", cultureInfo)}: {_figures.Count}";
             }
-            catch (Exception exception)
+            catch (AbroadException ex)
             {
-                MessageBox.Show(exception.Message, exception.Source);
+                sw.WriteLine(ex.Message + "\n" + "X: " + ex.point.X + " Y: " + ex.point.Y + "\n" + "Дата: " + ex.date);
+                ex.figure.BackInBoard(pictureBox_Main);
+                sw.Flush();
+            }
+            finally
+            {
+                if (sw != null)
+                    sw.Close();
             }
         }
-
-        private void treeView_main_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-        }
-
         private void treeView_main_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             try
             {
-                Figure selectedFigure = (Figure) e.Node.Tag;
+                Figure selectedFigure = (Figure)e.Node.Tag;
                 trackBarSpeed.Value = selectedFigure.getSpeed();
+                selectedFigure.SetBorder(8.0F);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.Message);
             }
         }
-
         private void treeView_main_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             try
@@ -125,12 +124,11 @@ namespace MoveObjects
                 throw;
             }
         }
-
         private void trackBarSpeed_Scroll(object sender, EventArgs e)
         {
             if (treeView_main.SelectedNode.IsSelected && treeView_main.SelectedNode.Level > 0)
-            { 
-                Figure selectedFigure = (Figure) treeView_main.SelectedNode.Tag;
+            {
+                Figure selectedFigure = (Figure)treeView_main.SelectedNode.Tag;
                 selectedFigure.changeSpeed(trackBarSpeed.Value);
             }
         }
@@ -138,12 +136,10 @@ namespace MoveObjects
         {
             ChangeLanguage("eu-US");
         }
-
         private void русскийToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ChangeLanguage("ru");
         }
-
         private void ChangeLanguage(string language)
         {
             cultureInfo = new CultureInfo(language);
@@ -158,7 +154,6 @@ namespace MoveObjects
             загрузитьToolStripMenuItem.Text = rm.GetString("load", cultureInfo);
             label1.Text = rm.GetString("elements", cultureInfo);
         }
-
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // BinaryFormatter formatter = new BinaryFormatter();
@@ -177,7 +172,6 @@ namespace MoveObjects
                 }
             }
         }
-
         private void загрузитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MainTimer.Enabled = false;
@@ -224,7 +218,6 @@ namespace MoveObjects
             }
             MainTimer.Enabled = true;
         }
-        
         private void buttonCollision_Click(object sender, EventArgs e)
         {
             if (treeView_main.SelectedNode.IsSelected && treeView_main.SelectedNode.Level > 0)
@@ -234,7 +227,6 @@ namespace MoveObjects
             }
             else MessageBox.Show("Что-бы добавить событие столкновения фигуре\nнеобходимо выбрать ее в дереве слева", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
         private void buttonCollisionOff_Click(object sender, EventArgs e)
         {
             if (treeView_main.SelectedNode.IsSelected && treeView_main.SelectedNode.Level > 0)
